@@ -128,5 +128,53 @@ public class Player {
           return "Player(Name:" + this.name + " Health:" + this.health + ")";
   }
 
+  public boolean move() {
+    CharKey userInput;
+    do { // discover a valid move for this cell
+        System.out.printf("Player(%d,%d)\n", player.getX(), player.getY());
+        userInput = csi.inkey();
+        //csi.cls();
+        if(userInput.isUpArrow()){
+          if (player.getY() > 0) {
+            player.setY(player.getY()-1);
+          }
+          else {
+            System.out.println("Invalid move");
+          }
+
+        }
+        if(userInput.isDownArrow()){
+          if (player.getY() < map.getWorldHeight()) {
+            player.setY(player.getY()+1);
+          } else {
+            System.out.println("Invalid move");
+          }
+
+        }
+        if(userInput.isLeftArrow()){
+          if (player.getX() > 0) {
+            player.setX(player.getX()-1);
+          } else {
+            System.out.println("Invalid move");
+          }
+
+        }
+        if(userInput.isRightArrow()){
+          if (player.getX() < map.getWorldWidth()) {
+            player.setX(player.getX()+1);
+          } else {
+            System.out.println("Invalid move");
+          }
+        }
+        if(userInput.code == CharKey.H || userInput.isSelfArrow()){
+          player.setX(player.getX());
+        }
+        System.out.printf("Player(%d,%d) - %s|%s\n", player.getX(), player.getY(),player.getGlyph(),
+          Character.toString(map.tile(player.getX(), player.getY()).glyph())) ;
+        renderFit();
+      } while (userInput.code != CharKey.ESC);
+
+  }
+
 
 }
