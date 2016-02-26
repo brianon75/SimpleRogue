@@ -1,10 +1,16 @@
+/* TODO
+ Goblin/Bat/Or etc.... inherits from Creature */ 
 import net.slashie.libjcsi.CSIColor;
+import net.slashie.libjcsi.CharKey;
+import net.slashie.libjcsi.ConsoleSystemInterface;
 
 public class Creature {
 
   //public enum CreatureType {GOBLIN, ORC, HUMAN};
   public enum Movement {UP, DOWN, LEFT, RIGHT, HOLD};
 
+  String goblinNames [] = {"Gobby", "Glack", "Glub", "Gork", "Gazba", "Glick"};
+  
   //private CreatureType type;
   private String name;
   private int health;
@@ -30,14 +36,15 @@ public class Creature {
   public Creature () {
   }
 
-  public Creature (Creature player, int x, int y, String glyph, CSIColor color, String name, int health, int strength, int agility, int luck) {
+  public Creature (Player player, int x, int y, String glyph, CSIColor color, int health, int strength, int agility, int luck) {
     this.x = x;
     this.y = y;
     this.glyph = glyph;
     this.color = color;
 
-    this.name = name;
-    this.health = health;
+	// asign it a name from our set list
+    this.name = goblinNames[(int)(Math.random()*goblinNames.length)];
+	this.health = health;
     this.strength = strength;
     this.agility = agility;
     this.luck = luck;
@@ -117,7 +124,7 @@ public class Creature {
 
   public String toString() {
           //return "Creature(Name:" + this.name + "|" + type + " Health:" + this.health + ")";
-          return "Creature(Name:" + this.name + " Health:" + this.health + ")";
+          return "Creature(Name:" + this.name + " Health:" + this.health + " XY " + this.x + " " + this.y +")";
   }
 
 

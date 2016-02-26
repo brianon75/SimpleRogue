@@ -23,7 +23,7 @@ public class Creature {
   }
 
   public int getX() {
-    return this.x
+    return this.x;
   };
 
   public int getY() {

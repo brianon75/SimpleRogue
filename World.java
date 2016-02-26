@@ -4,24 +4,29 @@ import net.slashie.libjcsi.ConsoleSystemInterface;
 import java.util.Properties;
 import java.util.ArrayList;
 import java.lang.Character;
+import java.lang.Math;
 import net.slashie.libjcsi.CSIColor;
 
-import net.slashie.libjcsi.CharKey;
+
 
 public class World {
   private Map map;
   private ConsoleSystemInterface csi;
   private Player player;
-  private ArrayList<Creature> creatrues;
+  private ArrayList<Creature> creatures = new ArrayList<Creature>();
   private boolean isLargeMap = false;
 
   public static final int DISPLAY_WIDTH = 80;
   public static final int DISPLAY_HEIGHT = 25;
+  
+  private int numMonsters = 0;
 
 
   public World(ConsoleSystemInterface csi, int x, int y) {
     this.map = map;
     this.csi = csi;
+	
+	numMonsters = (int)(Math.random()*20)+1; // 1 to 20 monsters
 
 
     // generate the terrain
@@ -36,19 +41,44 @@ public class World {
 
     // create our player
     player = new Player(x/2,y/2, "@", CSIColor.WHITE, "Baz", 100, 55, 44, 80);
+	
+	System.out.println(numMonsters);
+	
+	// get some(numCreatures) x and y coordinates that are not in the walls
+	int [][] coordinates = new int[numMonsters][2];
+	int testX =0;
+	int testY = 0;
+	
+	for (int i = 0; i < numMonsters; i++) {
+		
+		do {
+			testX = (int)(Math.random()*map.getWorldWidth());
+			testY = (int)(Math.random()*map.getWorldHeight());
+			coordinates[i][0] = testX;
+			coordinates[i][1] = testY;
+		} while (map.isWall(testX, testY));
+	}
+	
+	
+	// initialise our arraylist of creatures
+	for (int i = 0; i < numMonsters; i++) {
+
+		creatures.add(new Creature(player, coordinates[i][0],coordinates[i][1], "G", CSIColor.GREEN, (int)(Math.random()*100),
+			(int)(Math.random()*100), (int)(Math.random()*100), (int)(Math.random()*100)));
+
+	}
   }
 
-
   public void startGame() {
+  
+	  do {
+			renderFit();
+			player.move(this.csi, map);
+		} while (true);
+		
+    //renderFit();
 
-    renderFit();
-
-    play();
-
-
-
-
-
+    //play();
   }
 
   /* this is essentially our bottom layer */
@@ -63,7 +93,7 @@ public class World {
       System.out.printf("Player start @ x(%d)y(%d)\n", player.getX(),player.getY());
       System.out.printf("Display start @ x(%d)y(%d)\n", px,py);
     }*/
-
+	System.out.println("DISPLAY MAP");
     // run through our tiles and display the caves/map
     for(int x = 0; x  < DISPLAY_WIDTH; x++) {
       for(int y = 0; y < DISPLAY_HEIGHT; y++) {
@@ -75,24 +105,28 @@ public class World {
 
       }
     }
-    csi.refresh();
-
-/*    String answer = csi.input();
-    csi.refresh();
-    for(int x = 0; x  < DISPLAY_WIDTH; x++) {
-      for(int y = 0; y < DISPLAY_HEIGHT; y++) {
-        //System.out.printf("%d | %d [ ",x, y);
-
-        csi.print(x, y, Character.toString(map.tile(x,y).glyph()), map.tile(x,y).color());
-
-      }
-    }
-*/
-    // display our player
-    csi.print((DISPLAY_WIDTH/2), (DISPLAY_HEIGHT/2), player.getGlyph(), player.getColor());
-
+    //csi.refresh();
+	System.out.println("DISPLAY MAP DONE");
+    
+	System.out.println("DISPLAY MONSTERS");
     // run through our monsters
-
+	// 1. Does each monster fit on screen.
+	// 2. Where on he screen should it be
+	for (Creature cEle : creatures) {
+		//System.out.printf("%s VS %d %d\n", cEle.toString(), px, py);
+		
+		if (cEle.getX() >= px && cEle.getX() < (px + DISPLAY_WIDTH)
+			&& cEle.getY() >= py && cEle.getY() < (py + DISPLAY_HEIGHT)) {
+				System.out.println("Show creature : @ " + (cEle.getX()-px) + "x" + (cEle.getY()-py) + " " + cEle.getGlyph() + " COL " + cEle.getColor());
+				csi.print(cEle.getX()-px, cEle.getY()-py, cEle.getGlyph(), cEle.getColor());
+				
+			}
+	}
+	System.out.println("DISPLAY MONSTERS DONE");
+	System.out.println("DISPLAY PLAYER");
+	// display our player ALWAYS in the center !!!!
+    csi.print((DISPLAY_WIDTH/2), (DISPLAY_HEIGHT/2), player.getGlyph(), player.getColor());
+	System.out.println("DISPLAY PLAYER DONE");
     /// run through our items
     csi.refresh();
   }
@@ -137,7 +171,11 @@ public class World {
 
   private void play() {
 
-    player.move();
+	do {
+		renderFit();
+		player.move(this.csi, map);
+	} while (true);
+  
 
     
   }

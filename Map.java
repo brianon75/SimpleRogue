@@ -80,5 +80,16 @@ public class Map {
 
 
   }
+  
+  public boolean isWall(int x, int y) {
+	  if (tiles[x][y] == Tile.WALL) {
+		  return true;
+	  }
+	  return false;
+  }
+  
+  /*public int [][] getNonWall() {
+	  
+  }*/
 
 }

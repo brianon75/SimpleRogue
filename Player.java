@@ -1,4 +1,6 @@
 import net.slashie.libjcsi.CSIColor;
+import net.slashie.libjcsi.CharKey;
+import net.slashie.libjcsi.ConsoleSystemInterface;
 
 public class Player {
 
@@ -128,15 +130,15 @@ public class Player {
           return "Player(Name:" + this.name + " Health:" + this.health + ")";
   }
 
-  public boolean move() {
+  public boolean move(ConsoleSystemInterface csi, Map map) {
     CharKey userInput;
-    do { // discover a valid move for this cell
-        System.out.printf("Player(%d,%d)\n", player.getX(), player.getY());
+    //do { // discover a valid move for this cell
+        System.out.printf("Player(%d,%d)\n", this.getX(), this.getY());
         userInput = csi.inkey();
         //csi.cls();
         if(userInput.isUpArrow()){
-          if (player.getY() > 0) {
-            player.setY(player.getY()-1);
+          if (this.getY() > 0) {
+            this.setY(this.getY()-1);
           }
           else {
             System.out.println("Invalid move");
@@ -144,36 +146,36 @@ public class Player {
 
         }
         if(userInput.isDownArrow()){
-          if (player.getY() < map.getWorldHeight()) {
-            player.setY(player.getY()+1);
+          if (this.getY() < map.getWorldHeight()) {
+            this.setY(this.getY()+1);
           } else {
             System.out.println("Invalid move");
           }
 
         }
         if(userInput.isLeftArrow()){
-          if (player.getX() > 0) {
-            player.setX(player.getX()-1);
+          if (this.getX() > 0) {
+            this.setX(this.getX()-1);
           } else {
             System.out.println("Invalid move");
           }
 
         }
         if(userInput.isRightArrow()){
-          if (player.getX() < map.getWorldWidth()) {
-            player.setX(player.getX()+1);
+          if (this.getX() < map.getWorldWidth()) {
+            this.setX(this.getX()+1);
           } else {
             System.out.println("Invalid move");
           }
         }
         if(userInput.code == CharKey.H || userInput.isSelfArrow()){
-          player.setX(player.getX());
+          this.setX(this.getX());
         }
-        System.out.printf("Player(%d,%d) - %s|%s\n", player.getX(), player.getY(),player.getGlyph(),
-          Character.toString(map.tile(player.getX(), player.getY()).glyph())) ;
-        renderFit();
-      } while (userInput.code != CharKey.ESC);
-
+        System.out.printf("Player(%d,%d) - %s\n", this.getX(), this.getY(),this.getGlyph());
+          //Creature.toString(map.tile(this.getX(), this.getY()).glyph())) ;
+        //renderFit();
+      //} while (userInput.code != CharKey.ESC);
+	return true;
   }
 
 
