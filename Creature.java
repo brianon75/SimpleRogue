@@ -126,6 +126,15 @@ public class Creature {
           //return "Creature(Name:" + this.name + "|" + type + " Health:" + this.health + ")";
           return "Creature(Name:" + this.name + " Health:" + this.health + " XY " + this.x + " " + this.y +")";
   }
+  
+  public void update() {
+	  // decie what to do
+	  
+	  // for now just 
+	  //	... look for the player.
+	  // 	... move randomly or move to the player
+	  
+  }
 
 
 }
