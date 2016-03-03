@@ -132,13 +132,19 @@ public class Player {
 
   public boolean move(ConsoleSystemInterface csi, Map map) {
     CharKey userInput;
-    //do { // discover a valid move for this cell
+	int potentialX = 0;
+	int potentialY = 0;
+	
+    do { // discover a valid move for this cell
         System.out.printf("Player(%d,%d)\n", this.getX(), this.getY());
         userInput = csi.inkey();
         //csi.cls();
+		System.out.printf("BEFORE MOVE: Player(%d,%d) - %s\n", this.getX(), this.getY(),this.getGlyph());
         if(userInput.isUpArrow()){
           if (this.getY() > 0) {
-            this.setY(this.getY()-1);
+            potentialY = this.getY()-1;
+			potentialX = this.getX();
+			//this.setY(this.getY()-1);
           }
           else {
             System.out.println("Invalid move");
@@ -147,7 +153,9 @@ public class Player {
         }
         if(userInput.isDownArrow()){
           if (this.getY() < map.getWorldHeight()) {
-            this.setY(this.getY()+1);
+            potentialY = this.getY()+1;
+			potentialX = this.getX();
+			//this.setY(this.getY()+1);
           } else {
             System.out.println("Invalid move");
           }
@@ -155,7 +163,9 @@ public class Player {
         }
         if(userInput.isLeftArrow()){
           if (this.getX() > 0) {
-            this.setX(this.getX()-1);
+			potentialX = this.getX()-1;
+			potentialY = this.getY();
+            //this.setX(this.getX()-1);
           } else {
             System.out.println("Invalid move");
           }
@@ -163,7 +173,9 @@ public class Player {
         }
         if(userInput.isRightArrow()){
           if (this.getX() < map.getWorldWidth()) {
-            this.setX(this.getX()+1);
+            potentialX = this.getX()+1;
+			potentialY = this.getY();
+			//this.setX(this.getX()+1);
           } else {
             System.out.println("Invalid move");
           }
@@ -171,10 +183,24 @@ public class Player {
         if(userInput.code == CharKey.H || userInput.isSelfArrow()){
           this.setX(this.getX());
         }
-        System.out.printf("Player(%d,%d) - %s\n", this.getX(), this.getY(),this.getGlyph());
+        System.out.printf("AFETR MOVE : Player(%d,%d) - %s\n", this.getX(), this.getY(),this.getGlyph());
           //Creature.toString(map.tile(this.getX(), this.getY()).glyph())) ;
         //renderFit();
-      //} while (userInput.code != CharKey.ESC);
+    //} while (userInput.code != CharKey.ESC);
+		System.out.printf("Let's try %d x %d :::: It's a %s\n", potentialX, potentialY, map.tile(potentialX, potentialY));
+		if (map.tile(potentialX, potentialY) != Tile.WALL) {
+			System.out.println("NOT A WALL : " + map.tile(potentialX, potentialY));
+		} else {
+			System.out.println("WALL : " + map.tile(potentialX, potentialY));
+		}
+	} while ((map.tile(potentialX, potentialY) == Tile.WALL));
+	
+	// valid move. set it.
+	this.setX(potentialX);
+	this.setY(potentialY);
+	
+	
+	
 	return true;
   }
 
