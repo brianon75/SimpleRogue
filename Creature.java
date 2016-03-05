@@ -9,10 +9,12 @@ public class Creature {
   //public enum CreatureType {GOBLIN, ORC, HUMAN};
   public enum Movement {UP, DOWN, LEFT, RIGHT, HOLD};
 
-  String goblinNames [] = {"Gobby", "Glack", "Glub", "Gork", "Gazba", "Glick"};
+  
   
   //private CreatureType type;
-  private String name;
+  protected String name;
+  protected String glyph;
+  
   private int health;
   private int strength;
   private int agility;
@@ -20,7 +22,7 @@ public class Creature {
 
   private int x;
   private int y;
-  private String glyph;
+  
   private CSIColor color;
   private int fovRadius;
 
@@ -36,14 +38,13 @@ public class Creature {
   public Creature () {
   }
 
-  public Creature (Player player, int x, int y, String glyph, CSIColor color, int health, int strength, int agility, int luck) {
+  public Creature (Player player, int x, int y, CSIColor color, int health, int strength, int agility, int luck) {
     this.x = x;
     this.y = y;
-    this.glyph = glyph;
     this.color = color;
 
 	// asign it a name from our set list
-    this.name = goblinNames[(int)(Math.random()*goblinNames.length)];
+    //this.name = goblinNames[(int)(Math.random()*goblinNames.length)];
 	this.health = health;
     this.strength = strength;
     this.agility = agility;

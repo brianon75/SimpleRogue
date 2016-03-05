@@ -63,7 +63,7 @@ public class World {
 	// initialise our arraylist of creatures
 	for (int i = 0; i < numMonsters; i++) {
 
-		creatures.add(new Creature(player, coordinates[i][0],coordinates[i][1], "G", CSIColor.GREEN, (int)(Math.random()*100),
+		creatures.add(new Goblin(player, coordinates[i][0],coordinates[i][1], CSIColor.GREEN, (int)(Math.random()*100),
 			(int)(Math.random()*100), (int)(Math.random()*100), (int)(Math.random()*100)));
 
 	}
