@@ -3,7 +3,7 @@ import net.slashie.libjcsi.CSIColor;
 import net.slashie.libjcsi.CharKey;
 import net.slashie.libjcsi.ConsoleSystemInterface;
 
-public class Goblin extends Creature {
+public class Goblin extends Creature implements Comparable<Creature>{
 
    
 
@@ -22,6 +22,10 @@ public class Goblin extends Creature {
 
   public void lookAround() {
 	  
+  }
+  
+  public int compareTo(Goblin other) {
+	  return -1;
   }
   
   public void update() {

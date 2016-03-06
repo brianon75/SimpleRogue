@@ -4,7 +4,7 @@ import net.slashie.libjcsi.CSIColor;
 import net.slashie.libjcsi.CharKey;
 import net.slashie.libjcsi.ConsoleSystemInterface;
 
-public class Creature {
+public class Creature implements Comparable<Creature> {
 
   //public enum CreatureType {GOBLIN, ORC, HUMAN};
   public enum Movement {UP, DOWN, LEFT, RIGHT, HOLD};
@@ -126,6 +126,11 @@ public class Creature {
   public String toString() {
           //return "Creature(Name:" + this.name + "|" + type + " Health:" + this.health + ")";
           return "Creature(Name:" + this.name + " Health:" + this.health + " XY " + this.x + " " + this.y +")";
+  }
+  
+  @Override
+  public int compareTo(Creature other) {
+	  return -1;
   }
   
   public void update() {
